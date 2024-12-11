@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.fanmaum.lexorank"
+    namespace = "com.fanmaum.lexorank_sample"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.fanmaum.lexorank"
+        applicationId = "com.fanmaum.lexorank_sample"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
