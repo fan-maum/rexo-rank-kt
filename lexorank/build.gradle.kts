@@ -1,15 +1,50 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("jvm")
-    signing
-    `maven-publish`
+    id("com.vanniktech.maven.publish") version "0.30.0"
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-group = "com.fanmaum"
-version = "1.0.0"
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+
+    coordinates (
+        groupId = "com.fanmaum",
+        artifactId = "LexoRankKt",
+        version = "1.0.0"
+    )
+    pom {
+        name.set("LexoRankKt")
+        description.set("LexoRank for kotlin")
+        url.set("https://github.com/fan-maum/LexoRankKt")
+
+        licenses {
+            license {
+                name.set("Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("fanmaum")
+                name.set("fanmaum")
+                email.set("dev@fanmaum.com")
+            }
+        }
+
+        scm {
+            connection.set("scm:git:git://github.com/fan-maum/LexoRankKt.git")
+            developerConnection.set("scm:git:ssh://github.com:fan-maum/LexoRankKt.git")
+            url.set("https://github.com/fan-maum/LexoRankKt")
+        }
+    }
+}
 
 dependencies {
     //noinspection UseTomlInstead
