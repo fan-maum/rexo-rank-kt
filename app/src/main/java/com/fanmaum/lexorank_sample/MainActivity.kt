@@ -126,12 +126,10 @@ class MainActivity : ComponentActivity() {
     }
 
     /* 아이템에 랜덤 네이밍 부여 */
-    private fun generateRandomString(
-        length: Int = 8,
-        charset: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    ): String {
+    private fun generateRandomString(): String {
         val random = SecureRandom()
-        return (1..length)
+        val charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return (1..8)
             .map { charset[random.nextInt(charset.length)] }
             .joinToString("")
     }
