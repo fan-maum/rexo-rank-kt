@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LexoRankKt</string>
+    <string name="title_activity_main">LexoRankKt</string>
 </resources>
