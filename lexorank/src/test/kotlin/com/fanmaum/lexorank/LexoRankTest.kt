@@ -210,4 +210,10 @@ class LexoRankTest : StringSpec({
 
         shiftedInteger.format() shouldBe "123"
     }
+
+    "should return null if LexoRank is not valid" {
+        val nullableLexoRank = LexoRank.parseOrNull("wrong case")
+
+        nullableLexoRank shouldBe null
+    }
 })
