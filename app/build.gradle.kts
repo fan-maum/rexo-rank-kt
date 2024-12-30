@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":lexorank"))
+    implementation(projects.lexorank)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
