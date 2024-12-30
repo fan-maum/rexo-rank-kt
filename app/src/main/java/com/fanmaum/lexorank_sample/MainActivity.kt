@@ -29,8 +29,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val reorderableBiases = remember {
-                mutableStateListOf(Pair(generateRandomString(), "0|hzzzzz:"))
+            val reorderableLexoranks = remember {
+                mutableStateListOf(Pair(generateRandomString(), LexoRank.middle().toString()))
             }
 
             Column(
@@ -40,11 +40,11 @@ class MainActivity : ComponentActivity() {
             ) {
                 TextButton(
                     onClick = {
-                        /** 리스트의 마지막 부분에 [LexoRank.genNext] 함수를 통해 다음 순위값을 생성 **/
-                        reorderableBiases.add(
+                        /** Add an item to the end of the list, the [LexoRank.genNext] function is used to generate the next rank value. **/
+                        reorderableLexoranks.add(
                             Pair(
                                 generateRandomString(),
-                                LexoRank(reorderableBiases[reorderableBiases.lastIndex].second)
+                                LexoRank(reorderableLexoranks[reorderableLexoranks.lastIndex].second)
                                     .genNext()
                                     .toString()
                             )
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         .padding(horizontal = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    itemsIndexed(reorderableBiases) { index, item ->
+                    itemsIndexed(reorderableLexoranks) { index, item ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -74,45 +74,45 @@ class MainActivity : ComponentActivity() {
                                 onClick = {
                                     val targetIndex = index - 1
 
-                                    reorderableBiases.move(index, targetIndex)
+                                    reorderableLexoranks.move(index, targetIndex)
 
                                     val newKey =
                                         if (targetIndex == 0) {
-                                            /** 리스트의 처음으로 이동할 경우 [LexoRank.genPrev] 함수를 통해 이전 순위값을 생성 **/
-                                            LexoRank(reorderableBiases[index].second).genPrev()
+                                            /** When moving to the beginning of the list, the [LexoRank.genPrev] function is used to generate the previous rank value. **/
+                                            LexoRank(reorderableLexoranks[index].second).genPrev()
                                         } else {
-                                            /** 아이템의 사이로 이동할 경우 [LexoRank.between] 함수를 통해 사이 순위값을 생성 **/
-                                            LexoRank(reorderableBiases[targetIndex - 1].second).between(
-                                                LexoRank(reorderableBiases[targetIndex + 1].second)
+                                            /** When moving between items, the [LexoRank.between] function is used to generate the in-between rank value. **/
+                                            LexoRank(reorderableLexoranks[targetIndex - 1].second).between(
+                                                LexoRank(reorderableLexoranks[targetIndex + 1].second)
                                             )
                                         }
 
-                                    reorderableBiases[targetIndex] =
-                                        reorderableBiases[targetIndex].copy(second = newKey.toString())
+                                    reorderableLexoranks[targetIndex] =
+                                        reorderableLexoranks[targetIndex].copy(second = newKey.toString())
                                 }
                             ) {
                                 Text("up")
                             }
                             TextButton(
-                                enabled = index != reorderableBiases.lastIndex,
+                                enabled = index != reorderableLexoranks.lastIndex,
                                 onClick = {
                                     val targetIndex = index + 1
 
-                                    reorderableBiases.move(index, targetIndex)
+                                    reorderableLexoranks.move(index, targetIndex)
 
                                     val newKey =
-                                        if (targetIndex == reorderableBiases.lastIndex) {
-                                            /* 리스트의 마지막으로 이동할 경우 다음 값을 생성 합니다.*/
-                                            LexoRank(reorderableBiases[index].second).genNext()
+                                        if (targetIndex == reorderableLexoranks.lastIndex) {
+                                            /** When moving to the end of the list, the [LexoRank.genNext] function is used to generate the next rank value. **/
+                                            LexoRank(reorderableLexoranks[index].second).genNext()
                                         } else {
-                                            /** 아이템의 사이로 이동할 경우 [LexoRank.between] 함수를 통해 사이 순위값을 생성 **/
-                                            LexoRank(reorderableBiases[targetIndex - 1].second).between(
-                                                LexoRank(reorderableBiases[targetIndex + 1].second)
+                                            /** When moving between items, the [LexoRank.between] function is used to generate the in-between rank value. **/
+                                            LexoRank(reorderableLexoranks[targetIndex - 1].second).between(
+                                                LexoRank(reorderableLexoranks[targetIndex + 1].second)
                                             )
                                         }
 
-                                    reorderableBiases[targetIndex] =
-                                        reorderableBiases[targetIndex].copy(second = newKey.toString())
+                                    reorderableLexoranks[targetIndex] =
+                                        reorderableLexoranks[targetIndex].copy(second = newKey.toString())
                                 }
                             ) {
                                 Text("down")
@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /* 아이템에 랜덤 네이밍 부여 */
+    /* generate random item name */
     private fun generateRandomString(): String {
         val random = SecureRandom()
         val charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
