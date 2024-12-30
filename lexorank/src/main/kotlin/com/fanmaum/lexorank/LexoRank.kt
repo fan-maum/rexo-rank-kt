@@ -41,13 +41,23 @@ class LexoRank private constructor(
             return minLexoRank.between(max(minLexoRank.bucket))
         }
 
-        fun max(bucket: LexoRankBucket): LexoRank = from(bucket, MAX_DECIMAL)
+        fun max(bucket: LexoRankBucket = LexoRankBucket.BUCKET_0): LexoRank = from(bucket, MAX_DECIMAL)
 
         fun initial(bucket: LexoRankBucket): LexoRank {
             return if (bucket === LexoRankBucket.BUCKET_0) {
                 from(bucket, INITIAL_MIN_DECIMAL)
             } else {
                 from(bucket, INITIAL_MAX_DECIMAL)
+            }
+        }
+
+        fun parse(str: String): LexoRank = LexoRank(str)
+
+        fun parseOrNull(str: String): LexoRank? {
+            return try {
+                LexoRank(str)
+            } catch (e: IllegalArgumentException) {
+                null
             }
         }
 
